@@ -9,15 +9,20 @@
     </div>
 
     <div class="content">
-        <label for="discover_devices" v-if="discoveredDevices.length">DEVICES</label>
-        <div v-if="discoveredDevices.length">
-            <select name="" id="discover_devices" v-model="selectedDevice" >
-                <option value="-1">Choisir un device</option>
-                <option v-for="(device, index) in discoveredDevices" :key="index" :value="index">{{device.ip}}:{{device.port}}</option>
+
+
+        <h2>AUDIO DEVICES {{discoveredDevices.length ? '('+discoveredDevices.length+' found)' : ''}}</h2>
+        <div class="dflex">
+            <i v-if="!discoveredDevices.length" class="fas fa-circle-notch fa-spin"></i>
+            <select name="" id="discover_devices" v-model="selectedDevice" v-if="discoveredDevices.length" >
+                <option value="-1">Choose a device</option>
+                <option v-for="(device, index) in discoveredDevices" :key="index" :value="index">{{device.ip}}:{{device.port}} ({{device.channels}})</option>
             </select>
-            <button @click="chooseDevice">LOAD DEVICE</button>
+            <button class="inline" @click="chooseDevice" v-if="discoveredDevices.length" :disabled="0 > selectedDevice">LOAD DEVICE</button>
         </div>
 
+
+        <h2>SDP CONFIG</h2>
         <div class="sdp_params">
 
             <label for="multicast_ip">multicast ip</label>

@@ -14,6 +14,12 @@ a {
     color: white;
 }
 
+.dflex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 body {
   display: flex;
   justify-content: center;
@@ -147,17 +153,23 @@ body {
   flex-direction: column;
 }
 
+.curtain > .content h2 {
+  margin: 1.3rem 1rem 0.7rem 1rem;
+  font-size: 1.2rem;
+}
+
 .curtain .sdp_params {
   display: grid;
   grid-template-columns: 1fr 2fr;
-  grid-gap: 1rem;
+  grid-gap: 0.8rem;
 }
 
 .sdp_params label {
   text-align: right;
-  font-size: 1rem;
+  font-size: 0.9rem;
+  color: hsl(0deg 0% 69%);
 }
-.sdp_params input, .sdp_params select {
+.sdp_params input, .curtain select {
   text-align: left;
   background-color: #1b1b1b;
 }
@@ -175,7 +187,7 @@ input, select {
     width: 60%;
     background: hsl(240deg 87% 27% / 21%);
     color: #ffffffd1;
-    border: 1px solid #ffffff40;
+    border: 1px solid #ffffff26;
     border-radius: 2px;
     text-align: center;
 }
@@ -205,6 +217,18 @@ button, .button {
 button:hover, .button:hover {
   background: linear-gradient( 107deg, hsl(17 86% 54% / 0.81) 0%, rgb(255 0 0 / 69%) 100% );
   transition: all 0.2s ease-out;
+}
+
+button.inline, .button.inline {
+  margin: 0;
+  border-radius: 0;
+  max-height: 100%;
+  font-size: 0.7rem;
+  padding: 0.5rem;
+}
+
+button:disabled, .button:disabled {
+  background: gray;
 }
 
 

@@ -184,7 +184,9 @@ const app = new Vue({
             if (this.selectedDevice < 0 || this.selectedDevice >= this.discoveredDevices.length) return;
             let device = this.discoveredDevices[this.selectedDevice]
             console.log('loading device', device)
-
+            this.sdp.multicast_ip = device.ip
+            this.sdp.port = device.port
+            this.sdp.channels = device.channels
         },
 
 
