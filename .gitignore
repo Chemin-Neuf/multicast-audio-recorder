@@ -1,0 +1,6 @@
+data
+status.json
+.vscode
+__pycache__
+venv
+config.json

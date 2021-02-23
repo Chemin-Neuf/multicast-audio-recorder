@@ -1,0 +1,67 @@
+
+{% raw %}
+<div class="curtain" data-toggle="show">
+
+    <div class="title">
+        <p>CONFIG</p>
+        <div v-if="!loading.sdpData" v-on:click.stop="sdpData">RELOAD</div>
+        <div v-if="loading.sdpSaveDate" class="lds-ring"><div></div><div></div><div></div><div></div></div>
+    </div>
+
+    <div class="content">
+        <label for="discover_devices" v-if="discoveredDevices.length">DEVICES</label>
+        <div v-if="discoveredDevices.length">
+            <select name="" id="discover_devices" v-model="selectedDevice" >
+                <option value="-1">Choisir un device</option>
+                <option v-for="(device, index) in discoveredDevices" :key="index" :value="index">{{device.ip}}:{{device.port}}</option>
+            </select>
+            <button @click="chooseDevice">LOAD DEVICE</button>
+        </div>
+
+        <div class="sdp_params">
+
+            <label for="multicast_ip">multicast ip</label>
+            <input type="text" id="multicast_ip" pattern="[0-9\.]+" v-model="sdp.multicast_ip">
+
+            <label for="port">port</label>
+            <input type="number" id="port" pattern="[0-9]{2,5}" v-model="sdp.port">
+
+            <label for="channels">channels</label>
+            <select name="" id="channels" v-model="sdp.channels">
+                <option value="96">mono (96)</option>
+                <option value="97">stereo (97)</option>
+                <!-- <option value="98">stereo (98)</option> -->
+            </select>
+
+            <label for="bit_depth">bit depth</label>
+            <select name="" id="bit_depth" v-model="sdp.bit_depth">
+                <option value="16">16</option>
+                <option value="24">24</option>
+                <option value="32">32</option>
+            </select>
+
+            <label for="sample_rate">sample rate</label>
+            <select name="" id="sample_rate" v-model="sdp.sample_rate">
+                <option value="48000">48 kHz</option>
+                <option value="44100">44.1 kHz</option>
+            </select>
+
+        </div>
+
+        <button id="save_sdp" v-on:click="sdpSaveDate">
+            SAVE
+        </button>
+        <button id="autorec_start" v-on:click="autorecStart">
+            AUTOREC START
+        </button>
+        <button id="autorec_stop" v-on:click="autorecStop">
+            AUTOREC STOP
+        </button>
+
+        <label for="">SDP file:</label>
+        <div v-if="sdp.raw_content" class="file_content" v-html="sdp.raw_content"></div>
+    </div>
+
+</div>
+{% endraw %}
+

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Multicast Recorder</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename= 'style.css') }}">
+
+    <script type=text/javascript src="{{ url_for('static', filename='jquery-3.5.1.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vue.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous"></script>
+    <script type=text/javascript src="{{ url_for('static', filename='main.js') }}" defer></script>
+</head>
+<body>
+
+    {% raw %}
+    <div id="app">
+
+        <!-- Notifications -->
+        <div id="msg">{{notification.msg}}</div>
+
+        <!-- Record button -->
+        <div id="bigbutton" v-bind:class="recording.status" v-on:click="toggleRecord">
+            <div v-bind:class="{'pulse-button': recording.status == 'recording'}">
+                <span v-if="!loading.record && (recording.status == 'init' || recording.status == 'stopped')">RECORD</span>
+                <span v-if="recording.status == 'recording'" class="timer">{{recording.time | duration}}</span>
+                <div v-if="loading.record" class="lds-ring"><div></div><div></div><div></div><div></div></div>
+            </div>
+        </div>
+        <div class="file-size-live" v-if="recording.status == 'recording'">{{recording.filesize}} MB</div>
+
+        <!-- Audio title -->
+        <input type="text" class="audio-title" name="audio_title" placeholder="audio title" v-model="audio_title" :disabled="recording.status == 'recording'">
+
+        <!-- Shows the time left if a recording timeout is set -->
+        <div class="timeout" v-if="recording.status == 'recording'">
+            <div class="timeout_title">
+                <span v-if="Date.now() / 1000 > recording.schedule_stop_recording">RECORDING TIME</span>
+                <span v-else>RECORDING TIME LEFT</span>
+            </div>
+            <div class="timeout_actions">
+                <button class="timeout add" v-on:click="updateRecordingTimeout(-10 * 60)">-10min</button>
+                <button class="timeout add" v-on:click="updateRecordingTimeout(-2 * 60)">-2min</button>
+                <div class="time_left" v-if="recording.schedule_stop_recording >= Date.now() / 1000">{{recording.schedule_stop_recording - Date.now()/1000 | duration}}</div>
+                <div class="time_left" v-if="Date.now() / 1000 > recording.schedule_stop_recording">INF</div>
+                <button class="timeout add" v-on:click="updateRecordingTimeout(2 * 60)">+2min</button>
+                <button class="timeout add" v-on:click="updateRecordingTimeout(10 * 60)">+10min</button>
+            </div>
+        </div>
+
+        <!-- Current recording info -->
+        <div class="info" v-if="recording.status != 'recording'">
+            <label>Filename</label>
+            <div>
+                <a v-bind:href="recording.filepath">{{recording.filename}}</a>
+                <div v-if="recording.filepath && recording.status != 'recording'" class="remove" v-on:click="removeRecording">remove file</div>
+            </div>
+            <label>Size</label><div>{{recording.filesize}} MB</div>
+            <label>Duration</label><div><span v-if="recording.ffmpeg">{{recording.ffmpeg.duration}}</span></div>
+        </div>
+
+
+        {% endraw %}
+        {% include 'sdp_ui.html' %}
+    </div>
+
+
+
+    
+</body>
+</html>
+
+
+<script type=text/javascript>
+    $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+</script>

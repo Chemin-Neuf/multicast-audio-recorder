@@ -1,0 +1,12 @@
+[Unit]
+Description=Multicasst Audio Recorder
+
+[Service]
+User=ccninfo
+WorkingDirectory=/home/ccninfo/python-recorder
+ExecStart=/home/ccninfo/python-recorder/start.sh
+
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

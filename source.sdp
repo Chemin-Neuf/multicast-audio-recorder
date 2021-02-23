@@ -1,0 +1,4 @@
+v=0
+m=audio 5004 RTP/AVP 96
+c=IN IP4 239.69.252.180/32
+a=rtpmap:96 L24/48000/1
