@@ -31,8 +31,8 @@ def start_process():
 def stop_process():
     global autorec_stop
     autorec_stop = True
-    timer_stop_recording('rec1')
-    timer_stop_recording('rec2')
+    timer_stop_recording('rec1', False)
+    timer_stop_recording('rec2', False)
     return True
 
 
@@ -61,13 +61,14 @@ def start_state(n):
     elif n == 1:
         # wait for audio level to be above threshold
         db_level = get_db_level()
-        while db_level < -60:
+        while db_level < -50:
             if autorec_stop: return stop_process()
             db_level = get_db_level()
             sleep(1)
         # wait 1min and see if db_level is still ok
+        add_state('autorec', {'state': 1.5})
         sleep(60)
-        if db_level < -60:
+        if db_level < -50:
             start_state(1)
         else:
             start_state(2)
@@ -77,7 +78,7 @@ def start_state(n):
         # get oldest rec
         oldest_rec = 'rec1'
         newest_rec = 'rec2'
-        if autorec_states['rec1'] == None or (not autorec_states['rec2'] == None and autorec_states['rec1']['start_date'] > autorec_states['rec2']['start_date']): 
+        if autorec_states['rec1'] == None or ('rec2' in autorec_states and not autorec_states['rec2'] == None and autorec_states['rec1']['start_date'] > autorec_states['rec2']['start_date']): 
             oldest_rec = 'rec2'
             newest_rec = 'rec1'
         true_recording = oldest_rec
@@ -90,20 +91,22 @@ def start_state(n):
     # wait for db_level dropping to stop recording
     elif n == 3:
         db_level = get_db_level()
-        while db_level > -80:
+        while db_level > -55:
             if autorec_stop: return stop_process()
             db_level = get_db_level()
             sleep(1)
-        # wait 5min and see if db_level is still ok
-        sleep(5 * 60)
-        if db_level > -80:
+        # wait 3min and see if db_level is still ok
+        add_state('autorec', {'state': 3.5})
+        sleep(3 * 60)
+        if db_level > -55:
             start_state(3)
         else:
             start_state(4)
 
     # stop recording and start from scratch
     elif n == 4:
-        timer_stop_recording(true_recording, False)
+        timer_stop_recording('rec1', False)
+        timer_stop_recording('rec2', False)
         start_state(0)
 
 
@@ -143,16 +146,16 @@ def timer_stop_recording(name, restart = True):
     res = os.killpg(status['pid'], signal.SIGTERM)
     sleep(1)
 
-    # remove audio file
-    if os.path.exists(status['filepath']):
-        os.remove(status['filepath'])
-
     # remove state
     autorec_states[name] = None
     add_state(name, {})
 
     # start fresh recording
-    if restart: start_recording(name)
+    if restart: 
+        # remove audio file
+        if os.path.exists(status['filepath']):
+            os.remove(status['filepath'])
+        start_recording(name)
 
 
 '''
@@ -165,7 +168,7 @@ def get_db_level():
 
     cmd = "ffmpeg -protocol_whitelist rtp,file,udp -i source.sdp -c:a pcm_s24le -af asetnsamples=44100,astats=metadata=1:reset=1,ametadata=print:key=lavfi.astats.Overall.RMS_level:file=" + audio_level_file + " -f null -"
     p = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True, preexec_fn = os.setsid)
-    sleep(3)
+    sleep(4)
     os.killpg(os.getpgid(p.pid), signal.SIGTERM)
     sleep(1)
     

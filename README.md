@@ -46,3 +46,5 @@ To register the web app as a service an linux,
 ## Documentation and tutorials
 
 - to create a Flask webapp : https://www.digitalocean.com/community/tutorials/how-to-make-a-web-application-using-flask-in-python-3-fr
+- https://superuser.com/questions/1183663/determining-audio-level-peaks-with-ffmpeg
+- https://gist.github.com/jn0/8b98652f9fb8f8d7afbf4915f63f6726
