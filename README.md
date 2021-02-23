@@ -32,6 +32,10 @@ see https://linuxize.com/post/how-to-install-flask-on-ubuntu-18-04/ :
 
 or run `start.sh` (you can make it executable by running `chmod +x start.sh`)
 
+### testing ffmpeg-python
+
+- `pip3 install ffmpeg-python`
+
 
 ### Register start.sh as a service
 

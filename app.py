@@ -35,7 +35,7 @@ def run_action(action):
         autorec_thread.start()
         return {'autorec_started': True}
     elif action == 'stop_autorec':
-        if not autorec_thread: return {'autorec_stopped': True, 'already_stopped': True}
+        if not autorec_thread: return {'autorec_stopped': auto_record.stop_process(), 'already_stopped': True}
         return {'autorec_stopped': auto_record.stop_process()}
     if fn == None: return {'error': 'ACTION_NOT_FOUND', 'details': 'Action '+str(action)+' was not found'}
 

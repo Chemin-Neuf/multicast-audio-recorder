@@ -56,13 +56,7 @@
         <button id="save_sdp" v-on:click="sdpSaveDate">
             SAVE
         </button>
-        <button id="autorec_start" v-on:click="autorecStart">
-            AUTOREC START
-        </button>
-        <button id="autorec_stop" v-on:click="autorecStop">
-            AUTOREC STOP
-        </button>
-
+        
         <label for="">SDP file:</label>
         <div v-if="sdp.raw_content" class="file_content" v-html="sdp.raw_content"></div>
     </div>

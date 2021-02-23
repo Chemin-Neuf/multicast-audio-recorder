@@ -33,6 +33,9 @@ def stop_process():
     autorec_stop = True
     timer_stop_recording('rec1', False)
     timer_stop_recording('rec2', False)
+    autorec_status['state'] = -1
+    add_state('autorec', {'state': -1})
+
     return True
 
 
@@ -65,9 +68,9 @@ def start_state(n):
             if autorec_stop: return stop_process()
             db_level = get_db_level()
             sleep(1)
-        # wait 1min and see if db_level is still ok
+        # check mean db level for 1min and see if it's ok
         add_state('autorec', {'state': 1.5})
-        sleep(60)
+        db_level = get_db_level(60)
         if db_level < -50:
             start_state(1)
         else:
@@ -95,9 +98,9 @@ def start_state(n):
             if autorec_stop: return stop_process()
             db_level = get_db_level()
             sleep(1)
-        # wait 3min and see if db_level is still ok
+        # wait 7min and see if db_level is still ok
         add_state('autorec', {'state': 3.5})
-        sleep(3 * 60)
+        db_level = get_db_level(7 * 60)
         if db_level > -55:
             start_state(3)
         else:
@@ -161,14 +164,14 @@ def timer_stop_recording(name, restart = True):
 '''
 Returns the current audio DB level
 '''
-def get_db_level():
+def get_db_level(timespan = 4):
     global autorec_status
 
     audio_level_file = "audio_levels.txt"
 
-    cmd = "ffmpeg -protocol_whitelist rtp,file,udp -i source.sdp -c:a pcm_s24le -af asetnsamples=44100,astats=metadata=1:reset=1,ametadata=print:key=lavfi.astats.Overall.RMS_level:file=" + audio_level_file + " -f null -"
+    cmd = "ffmpeg -protocol_whitelist rtp,file,udp -i source.sdp -loglevel quiet -af asetnsamples=44100,astats=metadata=1:reset=1,ametadata=print:key=lavfi.astats.Overall.RMS_level:file=" + audio_level_file + " -f null -"
     p = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True, preexec_fn = os.setsid)
-    sleep(4)
+    sleep(timespan)
     os.killpg(os.getpgid(p.pid), signal.SIGTERM)
     sleep(1)
     

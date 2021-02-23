@@ -9,11 +9,16 @@ const app = new Vue({
     data: {
         loading: {
             discoverDevice: false,
+            getDbLevel: false,
         },
         audio_title: '',
         recording_timer: {end_time: null, timer: null},
         recording: {
             status: 'init',
+        },
+        autorec: {
+            level: -200,
+            state: -1,
         },
         discoveredDevices: [],
         selectedDevice: -1,
@@ -29,6 +34,8 @@ const app = new Vue({
         if (this.recording.status == 'recording') this.timer = setInterval(_ => this.status(), 1000)
         this.sdpData() // get content of SDP file
         this.discoverDevice() // discover devices multicasting on the network
+        this.autorecStatus(); // we get state of autorec
+        this.getDbLevel(true)
     },
 
     // formatting filters
@@ -114,9 +121,6 @@ const app = new Vue({
 
             // we get the current recording duration
             this.recording.time = this.recording.current_time - this.recording.start_time;
-
-            // we get state of autorec
-            this.autorecStatus();
         },
 
         // deletes the recording file
@@ -134,31 +138,53 @@ const app = new Vue({
         /* ===================================== */
         /*          GET AUTOREC STATUS           */
         /* ===================================== */
-        async autorecStatus() {
+        async getDbLevel(loop = false) {
+            if (this.loading.getDbLevel) return
+            this.loading.getDbLevel = true
+            try {
+                let res = await run_action('get_db_level')
+                if (!loop) console.log('getDbLevel', res)
+                this.autorec.level = res.result
+            } catch(e) {
+                this.notify('error', e)
+            } finally {
+                this.loading.getDbLevel = false
+                if (loop && this.autorec.state == -1) setTimeout(_ => this.getDbLevel(loop), 5000)
+            }
+        },
+        async autorecStatus(loop = false) {
             this.loading.autorecStatus = true
             try {
                 let res = await run_action('get_autorec_status')
-                console.log('autorecStatus', res)
+                this.autorec.level = res.result.level
+                this.autorec.state = res.result.state
+                if (this.autorec.state > -1) setTimeout(_ => this.autorecStatus(loop), 5000);
             } catch(e) {
                 this.notify('error', e)
+            } finally {
+                this.loading.autorecStatus = false
+                if (loop) setTimeout(_ => this.autorecStatus(loop), 5000)
             }
-            this.loading.autorecStatus = false
         },
         async autorecStart() {
+            if (this.loading.autorecStart) return
             this.loading.autorecStart = true
             try {
                 let res = await run_action('start_autorec')
                 console.log('autorecStart', res)
+                this.autorecStatus()
             } catch(e) {
                 this.notify('error', e)
             }
             this.loading.autorecStart = false
         },
         async autorecStop() {
+            if (this.loading.autorecStop) return
             this.loading.autorecStop = true
             try {
                 let res = await run_action('stop_autorec')
                 console.log('autorecStop', res)
+                this.autorecStatus()
             } catch(e) {
                 this.notify('error', e)
             }

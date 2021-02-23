@@ -18,6 +18,22 @@
     {% raw %}
     <div id="app">
 
+        <!-- autorec control -->
+        <div class="autorec-container">
+            <!-- auto rec state -->
+            <div class="autorec_state" v-if="autorec.state == -1" @click="autorecStart">start autorec</div>
+            <div class="autorec_state" v-if="autorec.state > -1" @click="autorecStop">stop autorec {{autorec.state}}</div>
+
+            <!-- auto rec db level -->
+            <div @click="getDbLevel(false)" class="db_level" :class="{level2: autorec.level > -50, level3: autorec.level > -40}">
+                <span class="level level1"></span>
+                <span class="level level2"></span>
+                <span class="level level3"></span>
+                <span class="level level4"></span>
+                <!-- <i v-if="loading.getDbLevel" class="fas fa-circle-notch fa-spin"></i> -->
+            </div>
+        </div>
+
         <!-- Notifications -->
         <div id="msg">{{notification.msg}}</div>
 
