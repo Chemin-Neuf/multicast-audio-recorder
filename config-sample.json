@@ -1,0 +1,10 @@
+{
+        
+    "ftp": {
+        "host": "10.10.10.10",
+        "user": "user",
+        "pass": "pass",
+        "working_dir": "/my/folder"
+    }
+
+}
