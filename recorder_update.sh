@@ -67,7 +67,7 @@ else
             sudo systemctl restart audio-recorder.service
             sudo systemctl status audio-recorder.service
 
-            printf "\nAUDIO RECORDER INSTALL SUCCESSFUL !\n"
+            printf "\nAUDIO RECORDER INSTALL SUCCESSFUL\n This does not work yet, please create a config.json file and restart the service (or run the install script again)"
         else
             printf "\nABORT : GIT CLONE MAY HAVE FAILED"
         fi
