@@ -1,0 +1,66 @@
+:root {
+    --db_level_color: hsl(203deg 96% 40%);
+}
+
+.autorec-container {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    display: flex;
+    align-items: end;
+}
+
+.autorec_state {
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    color: #f9f9f9;
+    margin-right: 0.8rem;
+    cursor: pointer;
+}
+
+.db_level {
+    display: flex;
+    align-items: flex-end;
+}
+
+.db_level > * {
+    display: block;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.611);
+    width: 5px;
+    margin-right: 3px;
+}
+
+.db_level > i {
+    height: 16px;
+    width: 16px;
+    font-size: 16px;
+    background: none;
+    color: rgba(255, 255, 255, 0.803);
+}
+
+.db_level > .level2 {height: 8px;}
+.db_level > .level3 {height: 11px;}
+.db_level > .level4 {height: 14px;}
+
+.db_level.level1 > .level1,
+.db_level.level2 > .level1,
+.db_level.level3 > .level1,
+.db_level.level4 > .level1 {
+    background: var(--db_level_color);
+}
+
+.db_level.level2 > .level2,
+.db_level.level3 > .level2,
+.db_level.level4 > .level2 {
+    background: var(--db_level_color);
+}
+
+.db_level.level3 > .level3,
+.db_level.level4 > .level3 {
+    background: var(--db_level_color);
+}
+
+.db_level.level4 > .level4 {
+    background: var(--db_level_color);
+}

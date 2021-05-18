@@ -35,7 +35,7 @@ const app = new Vue({
         this.sdpData() // get content of SDP file
         this.discoverDevice() // discover devices multicasting on the network
         this.autorecStatus(); // we get state of autorec
-        this.getDbLevel(true)
+        //this.getDbLevel(true)
     },
 
     // formatting filters
