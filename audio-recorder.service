@@ -3,8 +3,8 @@ Description=Multicasst Audio Recorder
 
 [Service]
 User=ccninfo
-WorkingDirectory=/home/ccninfo/python-recorder
-ExecStart=/home/ccninfo/python-recorder/start.sh
+WorkingDirectory=/home/ccninfo/multicast-audio-recorder
+ExecStart=/home/ccninfo/multicast-audio-recorder/start.sh
 
 Restart=on-failure
 

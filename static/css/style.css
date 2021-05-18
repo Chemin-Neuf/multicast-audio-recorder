@@ -330,7 +330,7 @@ button:disabled, .button:disabled {
 
 .pulse-button .timer {
   font-family: monospace;
-  font-size: 2.7rem;
+  font-size: 2.4rem;
 }
 
 @-webkit-keyframes pulse {
