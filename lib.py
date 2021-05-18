@@ -1,4 +1,15 @@
-import subprocess, re, os, signal, shutil
+import subprocess, re, os, signal, shutil, json
+
+'''
+Returns configuration written in the config.json file
+'''
+def getConf():
+    with open('config.json') as json_file:
+        try:
+            return json.load(json_file)
+        except Exception as err:
+            print(err)
+            return {'error': 'BAD JSON FILE', 'err': err}
 
 '''
 runs a ps -A | grep [s]

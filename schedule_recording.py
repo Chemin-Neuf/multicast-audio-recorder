@@ -13,6 +13,13 @@ timers = {
 }
 
 
+def reset_timers():
+    global timers
+    timers = {
+        'stop_recording': {'timer': None, 'end_timestamp': None},
+    }
+
+
 
 '''
 Adds nb_sec to the current stop_recording timer
@@ -32,7 +39,7 @@ def schedule_stop_recording_add_seconds(nb_sec):
         record.add_status({'schedule_stop_recording': None})
         return {'error': 'NOT_RECORDING', 'msg': 'You can add a stop timer only while recording'}
 
-    # we add end_timestamp if it's the timer is not set already
+    # we add end_timestamp if the timer is not set already
     if timers['stop_recording']['end_timestamp'] == None:
         timers['stop_recording']['end_timestamp'] = datetime.utcnow()
 

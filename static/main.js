@@ -24,6 +24,7 @@ const app = new Vue({
         selectedDevice: -1,
         sdp: {},
         timer: null,
+        preferences: {},
         notification: {type: 'info', msg: ''}
     },
 
@@ -32,6 +33,7 @@ const app = new Vue({
         await this.status()
         console.log('status', this.recording)
         if (this.recording.status == 'recording') this.timer = setInterval(_ => this.status(), 1000)
+        this.getAppPreferences() // load the app preferences (default recording time, ...)
         this.sdpData() // get content of SDP file
         this.discoverDevice() // discover devices multicasting on the network
         this.autorecStatus(); // we get state of autorec
@@ -80,6 +82,8 @@ const app = new Vue({
                 let res = await run_action('start_recording', [this.audio_title])
                 this.recording = res.result
                 this.timer = setInterval(_ => this.status(), 1000);
+                // add a default timeout if it is set in the app preferences
+                if (this.preferences.default_recording_time_minutes > 0) await this.updateRecordingTimeout(this.preferences.default_recording_time_minutes * 60)
             } catch(e) {
                 notify('error', e)
             }
@@ -246,8 +250,18 @@ const app = new Vue({
         },
 
 
-
-
+        /* ===================================== */
+        /*           GET APP PREFERENCES         */
+        /* ===================================== */
+        async getAppPreferences() {
+            try {
+                let res = await run_action('preferences')
+                console.log("preferences result", res)
+                if (res.result) this.preferences = res.result
+            } catch(e) {
+                notify('error', e)
+            }
+        },
 
 
         notify(type, msg) {

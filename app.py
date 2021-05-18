@@ -1,6 +1,6 @@
 from flask import Flask, render_template, jsonify, request, send_from_directory
 from inspect import signature
-import record, sdp_writer, schedule_recording, discover_device, auto_record
+import record, sdp_writer, schedule_recording, discover_device, auto_record, lib
 import threading
 
 app = Flask(__name__)
@@ -10,7 +10,6 @@ autorec_thread = None
 @app.route('/')
 def index():
     return render_template('index.html')
-
 
 @app.route('/json/<action>', methods=['GET', 'POST'])
 def run_action(action):
@@ -30,13 +29,16 @@ def run_action(action):
         fn = getattr(discover_device, action)
     elif hasattr(auto_record, action):
         fn = getattr(auto_record, action)
-    elif action == 'start_autorec':
-        autorec_thread = threading.Thread(target=auto_record.start_process)
-        autorec_thread.start()
-        return {'autorec_started': True}
-    elif action == 'stop_autorec':
-        if not autorec_thread: return {'autorec_stopped': auto_record.stop_process(), 'already_stopped': True}
-        return {'autorec_stopped': auto_record.stop_process()}
+    elif action == "preferences":
+        res = lib.getConf()
+        return jsonify(result = res['preferences'])
+    # elif action == 'start_autorec':
+    #     autorec_thread = threading.Thread(target=auto_record.start_process)
+    #     autorec_thread.start()
+    #     return {'autorec_started': True}
+    # elif action == 'stop_autorec':
+    #     if not autorec_thread: return {'autorec_stopped': auto_record.stop_process(), 'already_stopped': True}
+    #     return {'autorec_stopped': auto_record.stop_process()}
     if fn == None: return {'error': 'ACTION_NOT_FOUND', 'details': 'Action '+str(action)+' was not found'}
 
     # get action parameters and execute the action function

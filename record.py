@@ -4,9 +4,11 @@ from datetime import datetime
 from pathlib import Path
 import subprocess, os, signal, json, ftp, re
 
-from lib import emptyFolder
+from lib import emptyFolder, getConf
 from status import set_status, add_status, status_recording, get_audio_file_info
+import schedule_recording
 
+CONF = getConf()
 
 '''
 Returns the list of local recordings
@@ -23,6 +25,7 @@ def list_recordings():
 This function starts recording (audio) on the multicast address
 '''
 def start_recording(title = ""):
+    global CONF
     if title == "": title = "audio"
 
     # checks whether a recording is already ongoing
@@ -80,6 +83,9 @@ def stop_recording():
 
     # kill the process
     res = os.killpg(status['pid'], signal.SIGTERM)
+
+    # stop all recording timers
+    schedule_recording.reset_timers()
 
     # save recording status
     status['status'] = "stopped"

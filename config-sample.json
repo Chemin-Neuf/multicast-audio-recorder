@@ -5,6 +5,10 @@
         "user": "user",
         "pass": "pass",
         "working_dir": "/my/folder"
+    },
+
+    "preferences": {
+        "default_recording_time_minutes" : 75
     }
 
 }
