@@ -4,6 +4,7 @@ from datetime import datetime
 from pathlib import Path
 import subprocess, os, signal, json, ftp, re
 
+from lib import emptyFolder
 from status import set_status, add_status, status_recording, get_audio_file_info
 
 
@@ -31,10 +32,15 @@ def start_recording(title = ""):
             'error': 'ALREADY_RECORDING',
             'status': status,
         }
+
+    # remove all files in the local recording folder
+    recording_dir_path = os.path.dirname(os.path.realpath(__file__)) + "/data/"
+    errors = emptyFolder(recording_dir_path)
+    if (len(errors)): print(json.dumps(errors))
     
     # start recording
     filename = datetime.now().strftime("%Y%m%d_%H%M%S_"+title+".wav")
-    filepath = os.path.dirname(os.path.realpath(__file__)) + "/data/" + filename
+    filepath = recording_dir_path + filename
     print('recording on file '+filepath)
     # checks if file exists already TODO
     # cmd = "vlc -vvv source.sdp --sout \"#transcode{acodec=s16l,channels=1}:std{access=file,mux=wav,dst="+filepath+"}\""
