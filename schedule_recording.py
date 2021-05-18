@@ -18,6 +18,8 @@ def reset_timers():
     timers = {
         'stop_recording': {'timer': None, 'end_timestamp': None},
     }
+    record.add_status({'schedule_stop_recording': None})
+    return True
 
 
 

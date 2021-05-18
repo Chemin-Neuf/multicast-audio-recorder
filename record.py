@@ -110,6 +110,7 @@ def save_recording(filepath = None):
     status = status_recording()
     if filepath == None: filepath = status['filepath']
     if status['status'] == 'recording' and filepath == status['filepath']:
+        print("ERROR : recording ongoing")
         return {'error': 'RECORDING_ONGOING', 'msg': 'Cannot save recording while it is being recorded'}
     success = ftp.save_file(filepath)
     if not success: 
