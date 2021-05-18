@@ -14,6 +14,11 @@ then
     # pull the latest commit
     cd /home/ccninfo/multicast-audio-recorder
     git pull origin main
+    chmod +x /home/ccninfo/multicast-audio-recorder/start.sh
+
+    # copy latest version of the .service file
+    cp /home/ccninfo/multicast-audio-recorder/audio-recorder.service /etc/systemd/system/audio-recorder.service
+    sudo systemctl daemon-reload
 
     # create the data dir where local recordings will be stored
     if [[ ! -d "/home/ccninfo/multicast-audio-recorder/data" ]]; then
@@ -34,8 +39,10 @@ then
 # Install
 else
     printf "INSTALLING MULTICAST AUDIO RECORDER..."
-    printf "\nINSTALL GIT\n"
-    sudo apt-get update && sudo apt-get install -y git
+    printf "\nINSTALL GIT and other tools\n"
+    sudo apt-get update && sudo apt-get install -y git ffmpeg python3-venv
+    pip3 install Flask python-dateutil
+
     if [[ -d "/home/ccninfo" ]]
     then
         printf "\nCLONE THE GIT REPO in /home/ccninfo/multicast-audio-recorder\n"
@@ -45,7 +52,15 @@ else
         printf "\nCOPY THE SERVICE FILE IN /etc/systemd/system/\n"
         if [[ -d "/home/ccninfo/multicast-audio-recorder" ]]
         then
+            cd /home/ccninfo/multicast-audio-recorder
             mkdir /home/ccninfo/multicast-audio-recorder/data
+            python3 -m venv venv
+            source venv/bin/activate
+            pip3 install Flask python-dateutil
+            python -m flask --version
+            chmod +x /home/ccninfo/multicast-audio-recorder/start.sh
+
+            # setup the service
             cp /home/ccninfo/multicast-audio-recorder/audio-recorder.service /etc/systemd/system/audio-recorder.service
             sudo chmod u+x /etc/systemd/system/audio-recorder.service
             sudo systemctl enable audio-recorder.service
