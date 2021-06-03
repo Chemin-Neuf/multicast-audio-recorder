@@ -69,7 +69,7 @@
         <div class="info" v-if="recording.status != 'recording'">
             <label>Filename</label>
             <div>
-                <a v-bind:href="recording.filepath">{{recording.filename}}</a>
+                <a v-bind:href="'/data/' + recording.filename">{{recording.filename}}</a>
                 <div v-if="recording.filepath && recording.status != 'recording'" class="remove" v-on:click="removeRecording">remove file</div>
             </div>
             <label>Size</label><div>{{recording.filesize}} MB</div>
