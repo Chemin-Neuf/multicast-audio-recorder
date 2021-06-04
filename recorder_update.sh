@@ -18,6 +18,8 @@ then
     cd /home/ccninfo/multicast-audio-recorder
     git reset --hard origin/main
     chmod +x /home/ccninfo/multicast-audio-recorder/start.sh
+    chmod +x /home/ccninfo/multicast-audio-recorder/start_dev.sh
+    chmod +x /home/ccninfo/multicast-audio-recorder/recorder_update.sh
 
     # copy latest version of the .service file
     cp /home/ccninfo/multicast-audio-recorder/audio-recorder.service /etc/systemd/system/audio-recorder.service
@@ -62,6 +64,8 @@ else
             pip3 install Flask python-dateutil
             python -m flask --version
             chmod +x /home/ccninfo/multicast-audio-recorder/start.sh
+            chmod +x /home/ccninfo/multicast-audio-recorder/start_dev.sh
+            chmod +x /home/ccninfo/multicast-audio-recorder/recorder_update.sh
 
             # setup the service
             cp /home/ccninfo/multicast-audio-recorder/audio-recorder.service /etc/systemd/system/audio-recorder.service
