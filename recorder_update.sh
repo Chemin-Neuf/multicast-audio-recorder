@@ -16,7 +16,7 @@ then
 
     # pull the latest commit
     cd /home/ccninfo/multicast-audio-recorder
-    git pull origin main
+    git reset --hard origin/main
     chmod +x /home/ccninfo/multicast-audio-recorder/start.sh
 
     # copy latest version of the .service file
