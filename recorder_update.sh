@@ -19,7 +19,7 @@ then
     chmod +x /home/ccninfo/multicast-audio-recorder/recorder_update.sh
 
     # check that all packages are properly installed
-    sudo apt-get update && sudo apt-get install -y git ffmpeg python3-venv pip3
+    sudo apt-get update && sudo apt-get install -y git ffmpeg python3-venv python3-pip
     pip3 install Flask python-dateutil
 
     # copy latest version of the .service file
@@ -46,7 +46,7 @@ then
 else
     printf "INSTALLING MULTICAST AUDIO RECORDER..."
     printf "\nINSTALL GIT and other tools\n"
-    sudo apt-get update && sudo apt-get install -y git ffmpeg python3-venv pip3
+    sudo apt-get update && sudo apt-get install -y git ffmpeg python3-venv python3-pip
     pip3 install Flask python-dateutil
 
     if [[ -d "/home/ccninfo" ]]
