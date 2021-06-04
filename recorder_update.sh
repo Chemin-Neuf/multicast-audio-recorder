@@ -3,7 +3,7 @@ if [[ -d "/home/ccninfo/multicast-audio-recorder" ]]
 then
     printf "UPDATING MULTICAST AUDIO RECORDER..."
 
-    sudo apt-get update && sudo apt-get install -y git ffmpeg python3-venv
+    sudo apt-get update && sudo apt-get install -y git ffmpeg python3-venv pip3
     pip3 install Flask python-dateutil
 
     # save current config.json in a temp dir
@@ -45,7 +45,7 @@ then
 else
     printf "INSTALLING MULTICAST AUDIO RECORDER..."
     printf "\nINSTALL GIT and other tools\n"
-    sudo apt-get update && sudo apt-get install -y git ffmpeg python3-venv
+    sudo apt-get update && sudo apt-get install -y git ffmpeg python3-venv pip3
     pip3 install Flask python-dateutil
 
     if [[ -d "/home/ccninfo" ]]
