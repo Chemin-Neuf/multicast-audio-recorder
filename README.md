@@ -1,4 +1,14 @@
 
+## Deployment on new VM
+
+Run the following commands :
+* `apt install git`
+* `git clone https://github.com/Chemin-Neuf/multicast-audio-recorder`
+* `cd multicast-audio-recorder`
+* `cp config-sample.json config.json`
+* `nano config.json` and edit the file accordingly
+* `chmod +x recorder_update.sh`
+* `./recorder_update.sh`
 
 
 ## Setup
