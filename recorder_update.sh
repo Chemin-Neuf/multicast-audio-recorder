@@ -3,9 +3,6 @@ if [[ -d "/home/ccninfo/multicast-audio-recorder" ]]
 then
     printf "UPDATING MULTICAST AUDIO RECORDER..."
 
-    sudo apt-get update && sudo apt-get install -y git ffmpeg python3-venv pip3
-    pip3 install Flask python-dateutil
-
     # save current config.json in a temp dir
     if [[ -f "/home/ccninfo/multicast-audio-recorder/config.json" ]]; then
         printf "\nsaving current config.json\n"
@@ -20,6 +17,10 @@ then
     chmod +x /home/ccninfo/multicast-audio-recorder/start.sh
     chmod +x /home/ccninfo/multicast-audio-recorder/start_dev.sh
     chmod +x /home/ccninfo/multicast-audio-recorder/recorder_update.sh
+
+    # check that all packages are properly installed
+    sudo apt-get update && sudo apt-get install -y git ffmpeg python3-venv pip3
+    pip3 install Flask python-dateutil
 
     # copy latest version of the .service file
     cp /home/ccninfo/multicast-audio-recorder/audio-recorder.service /etc/systemd/system/audio-recorder.service
