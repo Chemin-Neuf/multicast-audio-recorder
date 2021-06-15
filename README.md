@@ -3,7 +3,7 @@
 
 Run the following commands :
 * `apt install git`
-* `cd /home/ccninfo`
+* `cd /root`
 * `git clone https://github.com/Chemin-Neuf/multicast-audio-recorder`
 * `cd multicast-audio-recorder`
 * `cp config-sample.json config.json`

@@ -2,9 +2,9 @@
 Description=Multicasst Audio Recorder
 
 [Service]
-User=ccninfo
-WorkingDirectory=/home/ccninfo/multicast-audio-recorder
-ExecStart=/home/ccninfo/multicast-audio-recorder/start.sh
+User=aes67
+WorkingDirectory=/home/aes67/multicast-audio-recorder
+ExecStart=/home/aes67/multicast-audio-recorder/start.sh
 
 Restart=on-failure
 
