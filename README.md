@@ -16,6 +16,8 @@ Run the following commands :
 
 First test that the multicast is listenable from your server : `tcpdump -c 10 multicast` should return a few lines
 
+If you use vmware virtual host and can't see multicast frame with tcpdump, try to change the virtual network type from VMXNET to E1000.
+
 ### Install frfmpeg
 
 `sudo apt-get install ffmpeg`
