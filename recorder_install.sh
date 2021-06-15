@@ -3,6 +3,14 @@ printf "\nINSTALL GIT and other tools\n"
 sudo apt-get update && sudo apt-get install -y git ffmpeg python3-venv python3-pip
 pip3 install Flask python-dateutil
 
+# give rights on tcpdump to ccninfo
+groupadd pcap
+usermod -a -G pcap ccninfo
+chgrp pcap /usr/sbin/tcpdump
+setcap cap_net_raw,cap_net_admin=eip /usr/sbin/tcpdump
+ln -s /usr/sbin/tcpdump /usr/bin/tcpdump
+
+
 if [[ -d "/home/ccninfo" ]]
 then
     printf "\nCLONE THE GIT REPO in /home/ccninfo/multicast-audio-recorder\n"

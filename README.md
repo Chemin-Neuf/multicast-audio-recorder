@@ -8,8 +8,8 @@ Run the following commands :
 * `cd multicast-audio-recorder`
 * `cp config-sample.json config.json`
 * `nano config.json` and edit the file accordingly
-* `chmod +x recorder_update.sh`
-* `./recorder_update.sh`
+* `chmod +x recorder_install.sh`
+* `./recorder_install.sh`
 
 
 ## Setup
@@ -63,3 +63,5 @@ To register the web app as a service an linux,
 - to create a Flask webapp : https://www.digitalocean.com/community/tutorials/how-to-make-a-web-application-using-flask-in-python-3-fr
 - https://superuser.com/questions/1183663/determining-audio-level-peaks-with-ffmpeg
 - https://gist.github.com/jn0/8b98652f9fb8f8d7afbf4915f63f6726
+
+permission problems on tcpdump : https://askubuntu.com/questions/530920/tcpdump-permissions-problem
