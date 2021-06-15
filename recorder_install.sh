@@ -41,6 +41,9 @@ then
         sudo systemctl restart audio-recorder.service
         sudo systemctl status audio-recorder.service
 
+        # fix files ownership
+        chown -R aes67 /home/aes67
+
         printf "\nAUDIO RECORDER INSTALL SUCCESSFUL\n This does not work yet, please create a config.json file and restart the service (or run the install script again)"
     else
         printf "\nABORT : GIT CLONE MAY HAVE FAILED"

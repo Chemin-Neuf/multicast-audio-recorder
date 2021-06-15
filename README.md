@@ -2,8 +2,8 @@
 ## Deployment on new VM
 
 Run the following commands :
-* `apt install git`
-* `cd /root`
+* `apt install git -y`
+* `mkdir /home/aes67 && cd /home/aes67`
 * `git clone https://github.com/Chemin-Neuf/multicast-audio-recorder`
 * `cd multicast-audio-recorder`
 * `cp config-sample.json config.json`
