@@ -25,6 +25,7 @@ then
     then
         cd /home/aes67/multicast-audio-recorder
         mkdir /home/aes67/multicast-audio-recorder/data
+        cp config-sample.json config.json
         python3 -m venv venv
         source venv/bin/activate
         pip3 install Flask python-dateutil
@@ -34,6 +35,9 @@ then
         chmod +x /home/aes67/multicast-audio-recorder/recorder_update.sh
         chmod +x /home/aes67/multicast-audio-recorder/recorder_install.sh
 
+        # fix files ownership
+        chown -R aes67 /home/aes67
+
         # setup the service
         cp /home/aes67/multicast-audio-recorder/audio-recorder.service /etc/systemd/system/audio-recorder.service
         sudo chmod u+x /etc/systemd/system/audio-recorder.service
@@ -41,10 +45,8 @@ then
         sudo systemctl restart audio-recorder.service
         sudo systemctl status audio-recorder.service
 
-        # fix files ownership
-        chown -R aes67 /home/aes67
 
-        printf "\nAUDIO RECORDER INSTALL SUCCESSFUL\n This does not work yet, please create a config.json file and restart the service (or run the install script again)\n"
+        printf "\nAUDIO RECORDER INSTALL SUCCESSFUL\n This does not work yet, please edit the config.json file and restart the service (run `service audio-recorder restart` or run the update script)\n"
     else
         printf "\nABORT : GIT CLONE MAY HAVE FAILED"
     fi
